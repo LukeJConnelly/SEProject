@@ -51,5 +51,3 @@ int main(int argc, char** argv) {
     
 
 }
-
-// Checking that I can push to github. (hey me from the future it worked!)
