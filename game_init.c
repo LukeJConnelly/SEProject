@@ -27,6 +27,7 @@ void initialize_board(square board[NUM_ROWS][NUM_COLUMNS]){
                 //creates a normal square otherwise
                 board[i][j].type = NORMAL;
             }
+			board[i][j].numTokens = 0;
             board[i][j].stack = NULL;
         }
     }

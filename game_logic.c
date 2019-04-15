@@ -91,15 +91,18 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 				printf("Sorry, A token cannot be place here as it is off the board\n");
 				scanf("%d",&selectedSquare);
 			}
-			//while(board[selectedSquare][0].numTokens>minNumOfTokens)
-			//{
-			//	printf("Sorry, a token can not be placed here as it currently has more tokens than the other squares.\nPlease re-enter:\n");
-			//	scanf("%d",&selectedSquare);
-			//}
-			while(board[selectedSquare][0].stack->col==players[j].col)
+			if (board[selectedSquare][0].stack!=NULL)
 			{
-				printf("Sorry, a token can not be placed here as it currently holds one of your tokens on top of the stack.\nPlease re-enter:\n");
-				scanf("%d",&selectedSquare);
+				while(board[selectedSquare][0].numTokens>minNumOfTokens)
+				{
+					printf("Sorry, a token can not be placed here as it currently has more tokens than the other squares.\nPlease re-enter:\n");
+					scanf("%d",&selectedSquare);
+				}
+				while(board[selectedSquare][0].stack->col==players[j].col)
+				{
+					printf("Sorry, a token can not be placed here as it currently holds one of your tokens on top of the stack.\nPlease re-enter:\n");
+					scanf("%d",&selectedSquare);
+				}
 			}
 			board[selectedSquare][0].stack=(token*)malloc(sizeof(token));
 			board[selectedSquare][0].stack->col=players[j].col;
