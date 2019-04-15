@@ -79,7 +79,9 @@ void printLine(){
 void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
 	int i, j, selectedSquare=0;
 	int minNumOfTokens=0;
+	printf("\n");
 	printf("It's time to place the counters. On your turn, please enter the corresponding vertical number to where you would like to place your counter on the board\n");
+	printf("\n");
 	for (i=0;i<4;i++)
 	{
 		for (j=0;j<numPlayers;j++)
@@ -111,6 +113,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 			{
 				minNumOfTokens++;
 			}
+			printf("\n");
 		}
 	}
 }
@@ -128,10 +131,11 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
     int i, dice, vertMove, X, Y;
 	srand(time(NULL));
 	printf("It's time to play the game. On your turn, the dice will be rolled, you will be given the option to move a piece vertically and then you will move a token in the column corresponding to the dice. Lets play!\n");
+	printf("\n");
 	for (i=0;i<numPlayers;i++)
 	{
 		dice=(rand()%6)+1;
-		printf("Hi player %d! The dice has rolled: %d", i, dice);
+		printf("Hi player %d! The dice has rolled: %d\n", i+1, dice);
 		printf("Would you like to move a piece vertically? 0 for no, 1 for yes\n");
 		scanf("%d", &vertMove);
 		while (vertMove!=0&&vertMove!=1)
