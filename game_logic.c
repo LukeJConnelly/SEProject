@@ -160,10 +160,23 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 			}
 			printf("Okay, would you like to move up or down? Please enter 0 for down, 1 for up.\n");
 			scanf("%d", &vertMove);
-			while (vertMove!=0&&vertMove!=1)
+			while ((vertMove!=0&&vertMove!=1)||(vertMove==1&&Y<=0)||(vertMove==0&&Y>=NUM_COLUMNS))
 			{
-				printf("This wasn't recognized as an input. Please re-enter:\n");
-				scanf("%d", &vertMove);
+				if(vertMove=1&&Y<=0)
+				{
+					printf("Sorry, you can't move up from the top of the board\n");
+					scanf("%d", &vertMove);
+				}
+				else if (vertMove==0&&Y>=NUM_COLUMNS)
+				{
+					printf("Sorry, you can't move down from the bottom of the board\n");
+					scanf("%d", &vertMove);
+				}
+				else
+				{
+					printf("This wasn't recognized as an input. Please re-enter:\n");
+					scanf("%d", &vertMove);
+				}
 			}
 			printf("Sure thing!\n");
 			// NEEDS A LINE TO REMOVE THE COLOUR FROM THE STACK HERE
