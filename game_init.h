@@ -50,7 +50,7 @@ typedef struct square{
  * such as a name and a color.
  */
 typedef struct player{
-    char name[6][20];
+    char name[20];
 	enum color col;
     int numTokensLastCol;
 }player; 

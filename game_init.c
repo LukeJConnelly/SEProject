@@ -54,19 +54,16 @@ int initialize_players(player players[]){
 	}
 	printf("Thank you. %d players will play this game.\n", p);
 	printf("\n");
+	while (getchar()!='\n');
 	for (i=0;i<p;i++)
 	{
 		printf("Please enter the name for player %d\n", i+1);
-		gets(players[i].name[0]);
-		if (i==0)
-		{
-			gets(players[i].name[0]);
-		}
+		gets(players[i].name);
 	}
 	printf("\n");
 	for (i=0;i<p;i++)
 	{
-		printf("Player %d: %s\n", i+1, players[i].name[0]);
+		printf("Player %d: %s\n", i+1, players[i].name);
 	}
 return p;
 }
