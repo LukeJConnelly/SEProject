@@ -199,12 +199,22 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				board[Y-1][X].numTokens++;
 			}
 		}
+		int flag=0, flagloop;
+		for (flagloop=0;flagloop<NUM_COLUMNS;flagloop++)
+		{
+			if(board[dice-1][flagloop].stack!=NULL)
+			{
+				flag=1;
+			}
+		}
+		if (flag=1)
+		{
 		printf("Please enter the x value of the token you would like to move in row %d.\n", dice-1);
 		printf("x:");
 		scanf("%d", &X);
-		while(board[dice-1][X].stack->col!=players[i].col)
+		while(board[dice-1][X].stack==NULL)
 		{
-			printf("We couldn't find one of your tokens here. Please re-enter.\n");
+			printf("We couldn't find a token here. Please re-enter.\n");
 			printf("x:");
 			scanf("%d", &X);
 		}
@@ -218,6 +228,11 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		{
 			printf("This token has reached the end!\n");
 			players[i].numTokensLastCol++;
+		}
+		}
+		else
+		{
+			printf("There are no moveable tokens within this row\n");
 		}
 		if(players[i].numTokensLastCol==3)
 		{
