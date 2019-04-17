@@ -135,7 +135,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	srand(time(NULL));
 	printf("It's time to play the game. On your turn, the dice will be rolled, you will be given the option to move a piece vertically and then you will move a token in the column corresponding to the dice. Lets play!\n");
 	printf("\n");
-	for (i=0;i<numPlayers;i++)
+	while (1)
 	{
 		print_board(board);
 		printf("\n");
@@ -209,26 +209,26 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		}
 		if (flag=1)
 		{
-		printf("Please enter the x value of the token you would like to move in row %d.\n", dice-1);
-		printf("x:");
-		scanf("%d", &X);
-		while(board[dice-1][X].stack==NULL)
-		{
-			printf("We couldn't find a token here. Please re-enter.\n");
+			printf("Please enter the x value of the token you would like to move in row %d.\n", dice-1);
 			printf("x:");
 			scanf("%d", &X);
-		}
-		printf("Sure thing, I'll move that token now!\n");
-		// NEEDS A LINE TO REMOVE THE COLOUR FROM THE STACK HERE
-		board[dice-1][X].numTokens--;
-		board[dice-1][X+1].stack=(token*)malloc(sizeof(token));
-		board[dice-1][X+1].stack->col=players[i].col;
-		board[dice-1][X+1].numTokens++;
-		if(X+1==8)
-		{
-			printf("This token has reached the end!\n");
-			players[i].numTokensLastCol++;
-		}
+			while(board[dice-1][X].stack==NULL)
+			{
+				printf("We couldn't find a token here. Please re-enter.\n");
+				printf("x:");
+				scanf("%d", &X);
+			}
+			printf("Sure thing, I'll move that token now!\n");
+			// NEEDS A LINE TO REMOVE THE COLOUR FROM THE STACK HERE
+			board[dice-1][X].numTokens--;
+			board[dice-1][X+1].stack=(token*)malloc(sizeof(token));
+			board[dice-1][X+1].stack->col=board[dice-1][X].stack->col;
+			board[dice-1][X+1].numTokens++;
+			if(X+1==8)
+			{
+				printf("This token has reached the end!\n");
+				players[i].numTokensLastCol++;
+			}
 		}
 		else
 		{
@@ -242,7 +242,6 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		else
 		{
 			printf("End of turn.\n\n");
-			//could print the board a couple times in this whole process but atm cba because of stacks
 		}
 	}
 }
