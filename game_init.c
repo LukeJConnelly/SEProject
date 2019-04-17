@@ -59,6 +59,7 @@ int initialize_players(player players[]){
 	{
 		printf("Please enter the name for player %d\n", i+1);
 		gets(players[i].name);
+		players[i].col=i;
 	}
 	printf("\n");
 	for (i=0;i<p;i++)
@@ -67,7 +68,4 @@ int initialize_players(player players[]){
 	}
 return p;
 }
-    
-   
-     
 
