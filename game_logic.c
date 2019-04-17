@@ -109,6 +109,8 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 			board[selectedSquare][0].stack=(token*)malloc(sizeof(token));
 			board[selectedSquare][0].stack->col=players[j].col;
 			board[selectedSquare][0].numTokens++;
+			printf("Player Colour: %s\n",players[j].col);
+			
 			if(((numPlayers*i)+j+1)%NUM_ROWS==0)
 			{
 				minNumOfTokens++;
@@ -130,6 +132,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
     int i, dice, vertMove, X, Y;
 	srand(time(NULL));
+	print_board(board);
 	printf("It's time to play the game. On your turn, the dice will be rolled, you will be given the option to move a piece vertically and then you will move a token in the column corresponding to the dice. Lets play!\n");
 	printf("\n");
 	for (i=0;i<numPlayers;i++)
