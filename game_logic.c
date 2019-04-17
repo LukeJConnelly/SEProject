@@ -109,12 +109,13 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 			board[selectedSquare][0].stack=(token*)malloc(sizeof(token));
 			board[selectedSquare][0].stack->col=players[j].col;
 			board[selectedSquare][0].numTokens++;
-			printf("Player Colour: %s\n",players[j].col);
 			
 			if(((numPlayers*i)+j+1)%NUM_ROWS==0)
 			{
 				minNumOfTokens++;
 			}
+			printf("\n");
+			print_board(board);
 			printf("\n");
 		}
 	}
@@ -132,13 +133,14 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPlayers){
     int i, dice, vertMove, X, Y;
 	srand(time(NULL));
-	print_board(board);
 	printf("It's time to play the game. On your turn, the dice will be rolled, you will be given the option to move a piece vertically and then you will move a token in the column corresponding to the dice. Lets play!\n");
 	printf("\n");
 	for (i=0;i<numPlayers;i++)
 	{
+		print_board(board);
+		printf("\n");
 		dice=(rand()%6)+1;
-		printf("Hi player %d! The dice has rolled: %d\n", i+1, dice);
+		printf("Hi player %d! The dice has rolled: %d. Therefore you can move a piece in row %d\n", i+1, dice, dice-1);
 		printf("Would you like to move a piece vertically? 0 for no, 1 for yes\n");
 		scanf("%d", &vertMove);
 		while (vertMove!=0&&vertMove!=1)
@@ -165,7 +167,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 			scanf("%d", &vertMove);
 			while ((vertMove!=0&&vertMove!=1)||(vertMove==1&&Y<=0)||(vertMove==0&&Y>=NUM_COLUMNS))
 			{
-				if(vertMove=1&&Y<=0)
+				if(vertMove==1&&Y<=0)
 				{
 					printf("Sorry, you can't move up from the top of the board\n");
 					scanf("%d", &vertMove);
