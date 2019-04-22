@@ -113,7 +113,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 			}
 			else
 			{
-				board[selectedSquare][0].stack->next=board[selectedSquare][0].stack;
+				board[selectedSquare][0].stack->col = push(players[j].col, board[selectedSquare][0].stack->col);
 			}
 			board[selectedSquare][0].numTokens++;
 			if(((numPlayers*i)+j+1)%NUM_ROWS==0)
@@ -254,4 +254,19 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 }
 
 
+struct token * push(int value, struct token *top){
+    struct token *curr = top;
+    top = malloc(sizeof(stack));
+    top->data = value;
+    top->next = curr;
+    return top;
+}
 
+struct token * pop(struct token *top){
+    struct token *curr = top;
+    if(curr!=NULL){
+        top = curr->next;
+        free(curr);
+    }
+    return top;
+}
