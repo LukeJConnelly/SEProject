@@ -210,6 +210,29 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 			if(board[dice-1][flagloop].stack!=NULL)
 			{
 				flag=1;
+				if(board[dice-1][flagloop].type==OBSTACLE&&board[dice-1][flagloop].stack!=NULL)
+				{
+					int p, q;
+					for (p=0;p<flagloop;p++)
+					{
+						for (q=0;q<NUM_ROWS;q++)
+						{
+							if (board[q][p].stack!=NULL)
+							{
+								break;
+							}
+						}
+						if (board[q][p].stack!=NULL)
+						{
+							break;
+						}
+					}
+					if (board[q][p].stack==NULL)
+					{
+						flag=0;
+						printf("Obstacle token within this row!");
+					}
+				}
 			}
 		}
 		if (flag==1)
@@ -217,11 +240,40 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 			printf("Please enter the x value of the token you would like to move in row %d.\n", dice-1);
 			printf("x:");
 			scanf("%d", &X);
-			while(board[dice-1][X].stack==NULL)
+			int k, l, allowmove=1;
+			while(board[dice-1][X].stack==NULL||((board[dice-1][X].type==OBSTACLE)&&(allowmove==1)))
 			{
-				printf("We couldn't find a token here. Please re-enter.\n");
+				allowmove=0;
+				if(board[dice-1][X].type==OBSTACLE)
+				{
+					for (k=0;k<dice-1;k++)
+					{
+						for (l=0;l<NUM_ROWS;l++)
+						{
+							if (board[l][k].stack!=NULL)
+							{
+								break;
+							}
+						}
+						if (board[l][k].stack!=NULL)
+						{
+							break;
+						}
+					}
+					if (board[l][k].stack==NULL)
+					{
+						allowmove=1;
+						printf("This piece is currently blocked by an obstacle. Please choose another piece\n");
+						printf("x:");
+						scanf("%d", &X);
+					}
+				}
+				else
+				{
+				printf("We couldn't find a moveable token here. Please re-enter.\n");
 				printf("x:");
 				scanf("%d", &X);
+				}
 			}
 			printf("Sure thing, I'll move that token now!\n");
 			board[dice-1][X+1]=push(board[dice-1][X].stack->col, board[dice-1][X+1].stack);
@@ -240,8 +292,8 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		}
 		if(players[i].numTokensLastCol==3)
 		{
-			printf("Congratulations to player %d! They have won the game!\n", i);
-			//some kind of endgame function will go here, or like some break statements
+			printf("\nCongratulations to player %d! They have won the game!\n", i);
+			exit(0);
 		}
 		else
 		{
