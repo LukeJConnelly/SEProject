@@ -144,6 +144,8 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	printf("\n");
 	while (1)
 	{
+	for(i=0;i<numPlayers;i++)
+	{
 		print_board(board);
 		printf("\n");
 		dice=(rand()%6)+1;
@@ -300,6 +302,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		{
 			printf("End of turn.\n\n");
 		}
+	}
 	}
 }
 
