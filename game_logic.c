@@ -106,10 +106,16 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 					scanf("%d",&selectedSquare);
 				}
 			}
-			board[selectedSquare][0].stack=(token*)malloc(sizeof(token));
-			board[selectedSquare][0].stack->col=players[j].col;
+			if(board[selectedSquare][0].stack==NULL)
+			{
+				board[selectedSquare][0].stack=(token*)malloc(sizeof(token));
+				board[selectedSquare][0].stack->col=players[j].col;
+			}
+			else
+			{
+				board[selectedSquare][0].stack->next=board[selectedSquare][0].stack;
+			}
 			board[selectedSquare][0].numTokens++;
-			
 			if(((numPlayers*i)+j+1)%NUM_ROWS==0)
 			{
 				minNumOfTokens++;
@@ -220,10 +226,11 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 			}
 			printf("Sure thing, I'll move that token now!\n");
 			// NEEDS A LINE TO REMOVE THE COLOUR FROM THE STACK HERE
-			board[dice-1][X].numTokens--;
 			board[dice-1][X+1].stack=(token*)malloc(sizeof(token));
 			board[dice-1][X+1].stack->col=board[dice-1][X].stack->col;
 			board[dice-1][X+1].numTokens++;
+			board[dice-1][X].stack->col;
+			board[dice-1][X].numTokens--;
 			if(X+1==8)
 			{
 				printf("This token has reached the end!\n");
