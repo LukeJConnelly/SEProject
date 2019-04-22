@@ -113,7 +113,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 			}
 			else
 			{
-				board[selectedSquare][0].stack->col = push(players[j].col, board[selectedSquare][0].stack->col);
+				board[selectedSquare][0].stack = push(players[j].col, board[selectedSquare][0].stack);
 			}
 			board[selectedSquare][0].numTokens++;
 			if(((numPlayers*i)+j+1)%NUM_ROWS==0)
@@ -190,20 +190,19 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				}
 			}
 			printf("Sure thing!\n");
-			// NEEDS A LINE TO REMOVE THE COLOUR FROM THE STACK HERE
-			board[Y][X].numTokens--;
 			if(vertMove==0)
 			{
-				board[Y+1][X].stack=(token*)malloc(sizeof(token));
-				board[Y+1][X].stack->col=players[i].col;
+				board[Y+1][X]=push(board[Y][X].stack->col, board[Y+1][X].stack);
 				board[Y+1][X].numTokens++;
+				board[Y][X]=pop(board[Y][X].stack);
 			}
 			else
 			{
-				board[Y-1][X].stack=(token*)malloc(sizeof(token));
-				board[Y-1][X].stack->col=players[i].col;
+				board[Y-1][X]=push(board[Y][X].stack->col, board[Y-1][X].stack);
 				board[Y-1][X].numTokens++;
+				board[Y][X]=pop(board[Y][X].stack);
 			}
+			board[Y][X].numTokens--;
 		}
 		int flag=0, flagloop;
 		for (flagloop=0;flagloop<NUM_COLUMNS;flagloop++)
@@ -213,7 +212,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				flag=1;
 			}
 		}
-		if (flag=1)
+		if (flag==1)
 		{
 			printf("Please enter the x value of the token you would like to move in row %d.\n", dice-1);
 			printf("x:");
@@ -225,11 +224,9 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				scanf("%d", &X);
 			}
 			printf("Sure thing, I'll move that token now!\n");
-			// NEEDS A LINE TO REMOVE THE COLOUR FROM THE STACK HERE
-			board[dice-1][X+1].stack=(token*)malloc(sizeof(token));
-			board[dice-1][X+1].stack->col=board[dice-1][X].stack->col;
+			board[dice-1][X+1]=push(board[dice-1][X].stack->col, board[dice-1][X+1].stack);
 			board[dice-1][X+1].numTokens++;
-			board[dice-1][X].stack->col;
+			board[dice-1][X]=pop(board[dice-1][X].stack);
 			board[dice-1][X].numTokens--;
 			if(X+1==8)
 			{
@@ -256,8 +253,8 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 
 struct token * push(int value, struct token *top){
     struct token *curr = top;
-    top = malloc(sizeof(stack));
-    top->data = value;
+    top = malloc(sizeof(token));
+    top->col = value;
     top->next = curr;
     return top;
 }

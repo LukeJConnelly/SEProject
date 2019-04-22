@@ -29,4 +29,5 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 
 
 struct token * push(int value, struct token *top);
+
 struct token * pop(struct token *top);
