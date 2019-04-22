@@ -6,6 +6,7 @@
 
 
 #include "game_init.h"
+#include "game_logic.h"
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -313,7 +314,8 @@ struct token* push(int value, struct token *top){
 
 struct token* pop(struct token *top){
     struct token *curr = top;
-    if(curr!=NULL){
+    if(curr!=NULL)
+	{
         top = curr->next;
         free(curr);
     }
