@@ -192,15 +192,15 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 			printf("Sure thing!\n");
 			if(vertMove==0)
 			{
-				board[Y+1][X]=push(board[Y][X].stack->col, board[Y+1][X].stack);
+				board[Y+1][X].stack=push(board[Y][X].stack->col, board[Y+1][X].stack);
 				board[Y+1][X].numTokens++;
-				board[Y][X]=pop(board[Y][X].stack);
+				board[Y][X].stack=pop(board[Y][X].stack);
 			}
 			else
 			{
-				board[Y-1][X]=push(board[Y][X].stack->col, board[Y-1][X].stack);
+				board[Y-1][X].stack=push(board[Y][X].stack->col, board[Y-1][X].stack);
 				board[Y-1][X].numTokens++;
-				board[Y][X]=pop(board[Y][X].stack);
+				board[Y][X].stack=pop(board[Y][X].stack);
 			}
 			board[Y][X].numTokens--;
 		}
@@ -276,9 +276,9 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				}
 			}
 			printf("Sure thing, I'll move that token now!\n");
-			board[dice-1][X+1]=push(board[dice-1][X].stack->col, board[dice-1][X+1].stack);
+			board[dice-1][X+1].stack=push(board[dice-1][X].stack->col, board[dice-1][X+1].stack);
 			board[dice-1][X+1].numTokens++;
-			board[dice-1][X]=pop(board[dice-1][X].stack);
+			board[dice-1][X].stack=pop(board[dice-1][X].stack);
 			board[dice-1][X].numTokens--;
 			if(X+1==8)
 			{
@@ -303,7 +303,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 }
 
 
-struct token * push(int value, struct token *top){
+struct token* push(int value, struct token *top){
     struct token *curr = top;
     top = malloc(sizeof(token));
     top->col = value;
@@ -311,7 +311,7 @@ struct token * push(int value, struct token *top){
     return top;
 }
 
-struct token * pop(struct token *top){
+struct token* pop(struct token *top){
     struct token *curr = top;
     if(curr!=NULL){
         top = curr->next;
