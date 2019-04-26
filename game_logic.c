@@ -101,7 +101,7 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 					printf("Sorry, a token can not be placed here as it currently has more tokens than the other squares.\nPlease re-enter:\n");
 					scanf("%d",&selectedSquare);
 				}
-				while(board[selectedSquare][0].stack->col==players[j].col)
+				while(board[selectedSquare][0].stack->col==players[j].col) // Prevents stacks of the same colour
 				{
 					printf("Sorry, a token can not be placed here as it currently holds one of your tokens on top of the stack.\nPlease re-enter:\n");
 					scanf("%d",&selectedSquare);
@@ -109,17 +109,17 @@ void place_tokens(square board[NUM_ROWS][NUM_COLUMNS], player players[], int num
 			}
 			if(board[selectedSquare][0].stack==NULL)
 			{
-				board[selectedSquare][0].stack=(token*)malloc(sizeof(token));
+				board[selectedSquare][0].stack=(token*)malloc(sizeof(token)); //creates the stack where the token is being placed.
 				board[selectedSquare][0].stack->col=players[j].col;
 			}
 			else
 			{
-				board[selectedSquare][0].stack = push(players[j].col, board[selectedSquare][0].stack);
+				board[selectedSquare][0].stack = push(players[j].col, board[selectedSquare][0].stack); //puts token at top of stack.
 			}
 			board[selectedSquare][0].numTokens++;
 			if(((numPlayers*i)+j+1)%NUM_ROWS==0)
 			{
-				minNumOfTokens++;
+				minNumOfTokens++; 
 			}
 			printf("\n");
 			print_board(board);
@@ -148,7 +148,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 	{
 		print_board(board);
 		printf("\n");
-		dice=(rand()%6)+1;
+		dice=(rand()%6)+1; // Generates a random number for the dice
 		printf("Hi player %d! The dice has rolled: %d. Therefore you can move a piece in row %d\n", i+1, dice, dice-1);
 		printf("Would you like to move a piece vertically? 0 for no, 1 for yes\n");
 		scanf("%d", &vertMove);
@@ -176,12 +176,12 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 			scanf("%d", &vertMove);
 			while ((vertMove!=0&&vertMove!=1)||(vertMove==1&&Y<=0)||(vertMove==0&&Y>=NUM_COLUMNS))
 			{
-				if(vertMove==1&&Y<=0)
+				if(vertMove==1&&Y<=0) //Avoids players moving a token up in the top row
 				{
 					printf("Sorry, you can't move up from the top of the board\n");
 					scanf("%d", &vertMove);
 				}
-				else if (vertMove==0&&Y>=NUM_COLUMNS)
+				else if (vertMove==0&&Y>=NUM_COLUMNS) //Avoids players moving a token down in the last row
 				{
 					printf("Sorry, you can't move down from the bottom of the board\n");
 					scanf("%d", &vertMove);
@@ -193,14 +193,14 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				}
 			}
 			printf("Sure thing!\n");
-			if(vertMove==0)
-			{
-				board[Y+1][X].stack=push(board[Y][X].stack->col, board[Y+1][X].stack);
-				board[Y+1][X].numTokens++;
+			if(vertMove==0) //in the case of the move being a value of 0 the token selected will be moved down by increasing one to the y value then the stacks function will put it
+			{				// at the top of the stack
+				board[Y+1][X].stack=push(board[Y][X].stack->col, board[Y+1][X].stack); 
+				board[Y+1][X].numTokens++; 
 				board[Y][X].stack=pop(board[Y][X].stack);
 			}
 			else
-			{
+			{		// same case as for down but this time it goes up if the value is not 0. It goes up by decreasing the y value
 				board[Y-1][X].stack=push(board[Y][X].stack->col, board[Y-1][X].stack);
 				board[Y-1][X].numTokens++;
 				board[Y][X].stack=pop(board[Y][X].stack);
@@ -279,10 +279,10 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 				}
 			}
 			printf("Sure thing, I'll move that token now!\n");
-			board[dice-1][X+1].stack=push(board[dice-1][X].stack->col, board[dice-1][X+1].stack);
-			board[dice-1][X+1].numTokens++;
-			board[dice-1][X].stack=pop(board[dice-1][X].stack);
-			board[dice-1][X].numTokens--;
+			board[dice-1][X+1].stack=push(board[dice-1][X].stack->col, board[dice-1][X+1].stack); //puts the token that is being moved at the top of the stack where its being placed
+			board[dice-1][X+1].numTokens++; //increases the tokens in the new stack
+			board[dice-1][X].stack=pop(board[dice-1][X].stack); // pops the token that it is being moved out of it stack
+			board[dice-1][X].numTokens--; //decreases the number in the previous stack
 			if(X+1==8)
 			{
 				printf("This token has reached the end!\n");
@@ -293,7 +293,7 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 		{
 			printf("There are no moveable tokens within this row\n");
 		}
-		if(players[i].numTokensLastCol==3)
+		if(players[i].numTokensLastCol==3) // when the number of tokens in the last column equals 3 finishes the game and displays a message.
 		{
 			printf("\nCongratulations to player %d! They have won the game!\n", i);
 			exit(0);
@@ -307,15 +307,15 @@ void play_game(square board[NUM_ROWS][NUM_COLUMNS], player players[], int numPla
 }
 
 
-struct token* push(int value, struct token *top){
+struct token* push(int value, struct token *top){ //function that puts a token at the top of the stack and put the previous at the top a place down.
     struct token *curr = top;
-    top = malloc(sizeof(token));
+    top = malloc(sizeof(token)); 
     top->col = value;
-    top->next = curr;
+    top->next = curr; 
     return top;
 }
 
-struct token* pop(struct token *top){
+struct token* pop(struct token *top){ //function that takes the current token at the top of the stack out of it.
     struct token *curr = top;
     if(curr!=NULL)
 	{

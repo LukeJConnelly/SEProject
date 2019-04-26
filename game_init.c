@@ -47,7 +47,7 @@ int initialize_players(player players[]){
 	while (p<2||p>6)
 	{
 		scanf("%d",&p);
-		if (p<2||p>6)
+		if (p<2||p>6) //In case the player inputs a number of player that it is not allowed
 		{
 			printf("Sorry this is not a recognized input, please re-enter:\n");
 		}
@@ -58,13 +58,14 @@ int initialize_players(player players[]){
 	for (i=0;i<p;i++)
 	{
 		printf("Please enter the name for player %d\n", i+1);
-		gets(players[i].name);
+		gets(players[i].name); //scans each palyer's name and gives a colour to each player.
 		players[i].col=i;
 	}
 	printf("\n");
 	for (i=0;i<p;i++)
 	{
-		printf("Player %d: %s\n", i+1, players[i].name);
+		printf("Player %d: %s\n", i+1, players[i].name); /*If the +1 wasn't added to the i it for player 1 it would print
+		player 0 which could be confusing. */
 	}
 return p;
 }
